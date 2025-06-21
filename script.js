@@ -53,7 +53,7 @@ function render() {
   container.innerHTML = "";
   players.forEach((player, i) => {
     const el = document.createElement("div");
-    el.className = "player";
+    el.className = "AVIT";
     el.innerHTML = `
       <div class="color-bar" style="background:${player.color}"></div>
       <div class="info">
