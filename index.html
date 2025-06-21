@@ -15,9 +15,11 @@
     <h1>🎯 Compteur de Points</h1>
     <div class="controls">
       <input type="text" id="playerName" placeholder="Nom du joueur" />
+      <input type="time" id="startTime" placeholder="Horaire" />
       <button onclick="addPlayer()">➕ Ajouter</button>
       <button onclick="sortPlayers()">🔃 Trier</button>
       <button onclick="resetAll()">♻️ Réinitialiser</button>
+      <button onclick="exportCSV()">📤 Exporter CSV</button>
     </div>
     <div id="players"></div>
     <footer>
