@@ -1,3 +1,4 @@
+
 /* Background & body */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -125,7 +126,8 @@ body {
 }
 .title {
   text-align: center;
-  font-size: 2.2rem;
+  font-size: 2rem;
+  padding: 10px;
   margin: 20px 0;
 }
 .footer {
@@ -138,8 +140,10 @@ body {
 
 /* Controls */
 .controls {
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 colonnes égales */
   gap: 15px;
   margin-bottom: 25px;
   justify-content: center;
@@ -212,7 +216,7 @@ button:hover {
 }
 
 .dark .player {
-  background: #222;
+  background: #262626;
   color: #eee;
 }
 
