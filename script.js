@@ -67,8 +67,8 @@ function addPlayer() {
   save();
   render();
 
-  document.getElementById("playerName").value = "";
-  document.getElementById("timeSlot").value = "";
+  document.getElementById("playerName").value = "Nom de l'avitailleur";
+  document.getElementById("timeSlot").value = "5h";
 }
 
 function increment(index) {
