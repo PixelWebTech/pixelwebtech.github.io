@@ -12,8 +12,8 @@
     <div id="loginScreen" class="login-screen">
       <div class="login-card">
         <div class="login-box">
-          <h2>✈️ AVIT COUNT</h2>
           <h2>Connexion</h2>
+          <h2>✈️ AVIT COUNT</h2>
           <input
             type="password"
             id="loginPassword"
@@ -33,11 +33,14 @@
 
     <div class="container" style="display: none">
       <h1 class="title">✈️ Compteur Avitaillement ✈️</h1>
+      <p id="currentDate" style="text-align:center; font-weight:600; margin-bottom:20px;"></p>
+
 
       <div class="controls">
         <input type="text" id="playerName" placeholder="Nom de l'avitailleur" />
         <select id="timeSlot">
-          <option value="5h">5h</option>
+          <option value="5h" selected>5h</option>
+          <option value="5h30">5h30</option> <!-- ✅ Ajouté -->
           <option value="6h">6h</option>
           <option value="13h">13h</option>
           <option value="13h30">13h30</option>
@@ -49,10 +52,11 @@
         <select id="sortMode" onchange="render()">
           <option value="scoreDesc">🔽 Points décroissants</option>
           <option value="scoreAsc">🔼 Points croissants</option>
-          <option value="timeAsc">🕓 Ordre créneau horaire</option>
+          <option value="timeAsc" selected>🕓 Ordre créneau horaire</option>
         </select>
 
-        <button onclick="exportCSV()">📤 Export CSV</button>
+        <!-- <button onclick="exportCSV()">📤 Export CSV</button> -->
+        <button onclick="exportTXT()">Exporter en .txt</button>
         <button onclick="undo()">↩️ Annuler</button>
         <button onclick="toggleDarkMode()">🌓 Mode</button>
         <button onclick="resetAll()">🔄 Remise à zéro</button>
@@ -69,3 +73,4 @@
     <script src="script.js"></script>
   </body>
 </html>
+
