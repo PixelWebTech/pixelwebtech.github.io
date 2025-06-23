@@ -1,5 +1,4 @@
-
-  // login
+// login
 const PASSWORD = "avit";
 
 let players = JSON.parse(localStorage.getItem("players") || "[]");
@@ -8,6 +7,7 @@ let darkMode = localStorage.getItem("darkMode") === "true";
 
 const timeSlotColors = {
   "5h": "#FF5733",
+  "5h30": "#66ccff", // ✅ Ajouté
   "6h": "#33FF57",
   "13h": "#3357FF",
   "13h30": "#FF33A1",
@@ -15,7 +15,7 @@ const timeSlotColors = {
   "14h30": "#33FFF2",
 };
 
-const timeSlotsOrder = ["5h", "6h", "13h", "13h30", "14h", "14h30"];
+const timeSlotsOrder = ["5h", "5h30", "6h", "13h", "13h30", "14h", "14h30"]; // ✅ Ajouté 5h30
 
 function checkLogin() {
   const input = document.getElementById("loginPassword").value.trim();
@@ -36,11 +36,11 @@ function checkLogin() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Au départ, on masque la page principale et splash, on affiche le login
   document.querySelector(".container").style.display = "none";
   document.getElementById("splash").style.display = "none";
   document.getElementById("loginScreen").style.display = "flex";
 });
+
 function save() {
   localStorage.setItem("players", JSON.stringify(players));
 }
@@ -60,7 +60,7 @@ function addPlayer() {
     .map((n) => n[0])
     .join("")
     .toUpperCase();
-  const color = timeSlotColors[slot] || "#ccc"; // fallback si jamais
+  const color = timeSlotColors[slot] || "#ccc";
 
   players.push({ name, score: 0, color, addedAt: timestamp, initials, slot });
   saveHistory();
@@ -100,14 +100,11 @@ function editPlayer(index) {
   const player = players[index];
   const newName = prompt("Nouveau nom :", player.name);
   const newTime = prompt(
-    "Nouveau créneau (5h, 6h, 13h, 13h30, 14h, 14h30) :",
+    "Nouveau créneau (5h, 5h30, 6h, 13h, 13h30, 14h, 14h30) :",
     player.slot || ""
   );
 
-  if (
-    !newName ||
-    !["5h", "6h", "13h", "13h30", "14h", "14h30"].includes(newTime)
-  ) {
+  if (!newName || !timeSlotsOrder.includes(newTime)) {
     alert("Modification annulée ou créneau invalide.");
     return;
   }
@@ -119,6 +116,7 @@ function editPlayer(index) {
     .map((n) => n[0])
     .join("")
     .toUpperCase();
+  players[index].color = timeSlotColors[newTime] || "#ccc";
 
   save();
   render();
@@ -130,7 +128,6 @@ function sortBy(mode) {
   } else if (mode === "scoreAsc") {
     players.sort((a, b) => a.score - b.score);
   } else if (mode === "timeAsc") {
-    const timeSlotsOrder = ["5h", "6h", "13h", "13h30", "14h", "14h30"];
     players.sort(
       (a, b) => timeSlotsOrder.indexOf(a.slot) - timeSlotsOrder.indexOf(b.slot)
     );
@@ -138,6 +135,15 @@ function sortBy(mode) {
 }
 
 function render() {
+  // Affiche la date du jour (ajoute ce bloc au tout début)
+  const dateElement = document.getElementById("currentDate");
+  const today = new Date().toLocaleDateString("fr-FR", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+  dateElement.textContent = `📅 ${today}`;
   const mode = document.getElementById("sortMode").value;
   sortBy(mode);
   const container = document.getElementById("players");
@@ -153,12 +159,13 @@ function render() {
           <div class="score">✈️ ${player.score}</div>
         </div>
         <div class="actions">
-          <button onclick="increment(${i})">+</button>
-          <button onclick="decrement(${i})">-</button>
-          <button onclick="resetPlayer(${i})">♻️</button>
-          <button onclick="editPlayer(${i})">✏️</button>
-          <button onclick="deletePlayer(${i})">❌</button>
+          <button onclick="increment(${i})" title="Ajouter 1 point">+</button>
+          <button onclick="decrement(${i})" title="Retirer 1 point">-</button>
+          <button onclick="resetPlayer(${i})" title="Remettre le score à zéro">♻️</button>
+          <button onclick="editPlayer(${i})" title="Modifier le joueur">✏️</button>
+          <button onclick="deletePlayer(${i})" title="Supprimer le joueur">❌</button>
         </div>
+
         `;
     container.appendChild(el);
   });
@@ -178,18 +185,36 @@ function undo() {
   render();
 }
 
-function exportCSV() {
-  let csv = "Nom,Créneau,Couleur,Initiales,Nombre d'avions\n";
+function exportTXT() {
+  const today = new Date().toLocaleDateString('fr-FR');
+  
+  // En-tête
+  let content = `Avitaillement - ${today}\n\n`;
+
+  // Titres des colonnes avec alignement fixe
+  content += pad("Nom", 20) + pad("Créneau", 10) + pad("Avions", 8) + "\n";
+  content += "-".repeat(37) + "\n";
+
+  // Lignes des joueurs
   players.forEach((p) => {
-    csv += `${p.name},${p.timeSlot},${p.color},${p.initials},${p.score}\n`;
+    content += pad(p.name, 20) + pad(p.slot, 10)+ pad(p.score.toString(), 8) + "\n";
   });
-  const blob = new Blob([csv], { type: "text/csv" });
+
+  // Création et téléchargement
+  const blob = new Blob([content], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "avitaillement.csv";
+  a.download = `avitaillement_${today.replace(/\//g, "-")}.txt`;
   a.click();
 }
+
+// Fonction utilitaire pour aligner le texte avec padding
+function pad(str, length) {
+  str = str.toString();
+  return str + " ".repeat(Math.max(0, length - str.length));
+}
+
 
 function toggleDarkMode() {
   document.body.classList.toggle("dark");
@@ -224,6 +249,7 @@ function updateChart() {
     },
   });
 }
+
 function resetAll() {
   if (players.length === 0) {
     alert("Il n'y a aucun joueur à effacer.");
@@ -240,3 +266,4 @@ function resetAll() {
     render();
   }
 }
+
