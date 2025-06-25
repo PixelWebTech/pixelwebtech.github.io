@@ -1,13 +1,14 @@
-// login
+/ login
 const PASSWORD = "avit";
 
 let players = JSON.parse(localStorage.getItem("players") || "[]");
 let history = [];
 let darkMode = localStorage.getItem("darkMode") === "true";
+let returnCounter = 1;
 
 const timeSlotColors = {
   "5h": "#FF5733",
-  "5h30": "#66ccff", // ✅ Ajouté
+  "5h30": "#66ccff",
   "6h": "#33FF57",
   "13h": "#3357FF",
   "13h30": "#FF33A1",
@@ -15,7 +16,7 @@ const timeSlotColors = {
   "14h30": "#33FFF2",
 };
 
-const timeSlotsOrder = ["5h", "5h30", "6h", "13h", "13h30", "14h", "14h30"]; // ✅ Ajouté 5h30
+const timeSlotsOrder = ["5h", "5h30", "6h", "13h", "13h30", "14h", "14h30"];
 
 function checkLogin() {
   const input = document.getElementById("loginPassword").value.trim();
@@ -62,7 +63,17 @@ function addPlayer() {
     .toUpperCase();
   const color = timeSlotColors[slot] || "#ccc";
 
-  players.push({ name, score: 0, color, addedAt: timestamp, initials, slot });
+  players.push({
+  name,
+  score: 0,
+  color,
+  addedAt: timestamp,
+  initials,
+  slot,
+  status: "station",
+  stationAt: Date.now() // dès l’ajout, il est "en station"
+});
+
   saveHistory();
   save();
   render();
@@ -73,10 +84,16 @@ function addPlayer() {
 
 function increment(index) {
   players[index].score++;
+  if (players[index].status !== "piste") {
+    players[index].status = "piste";
+    players[index].stationAt = null; // n’est plus en station
+  }
   saveHistory();
   save();
   render();
 }
+
+
 function decrement(index) {
   players[index].score--;
   saveHistory();
@@ -109,18 +126,43 @@ function editPlayer(index) {
     return;
   }
 
-  players[index].name = newName;
-  players[index].slot = newTime;
-  players[index].initials = newName
+  player.name = newName;
+  player.slot = newTime;
+  player.initials = newName
     .split(" ")
     .map((n) => n[0])
     .join("")
     .toUpperCase();
-  players[index].color = timeSlotColors[newTime] || "#ccc";
-
+  player.color = timeSlotColors[newTime] || "#ccc";
   save();
   render();
 }
+
+function departStation(index) {
+  players[index].isDeparted = true;
+  save();
+  render();
+}
+
+function retourStation(index) {
+  if (!players[index].isDeparted) {
+    alert("Le joueur doit d'abord partir à la station.");
+    return;
+  }
+  if (players[index].returnOrder) return;
+  players[index].returnOrder = returnCounter++;
+  save();
+  render();
+}
+
+function setStation(index) {
+  players[index].status = "station";
+  players[index].stationAt = Date.now(); // marque le retour
+  saveHistory();
+  save();
+  render();
+}
+
 
 function sortBy(mode) {
   if (mode === "scoreDesc") {
@@ -134,8 +176,11 @@ function sortBy(mode) {
   }
 }
 
+function getOrdinalSuffix(n) {
+  return n === 1 ? "er" : "e";
+}
+
 function render() {
-  // Affiche la date du jour (ajoute ce bloc au tout début)
   const dateElement = document.getElementById("currentDate");
   const today = new Date().toLocaleDateString("fr-FR", {
     weekday: "long",
@@ -148,29 +193,50 @@ function render() {
   sortBy(mode);
   const container = document.getElementById("players");
   container.innerHTML = "";
+
+  // Récupère les ordres de retour en station
+  const stationOrder = players
+    .map((p, i) => ({ ...p, index: i }))
+    .filter((p) => p.status === "station")
+    .sort((a, b) => (a.stationAt || 0) - (b.stationAt || 0))
+    .map((p) => p.index);
+
   players.forEach((player, i) => {
     const el = document.createElement("div");
     el.className = "player";
-    el.innerHTML = `
-        <div class="color-bar" style="background:${player.color}"></div>
-        <div class="info">
-          <strong>${player.name} (${player.initials})</strong>
-          <small>Créneau : ${player.slot}</small>
-          <div class="score">✈️ ${player.score}</div>
-        </div>
-        <div class="actions">
-          <button onclick="increment(${i})" title="Ajouter 1 point">+</button>
-          <button onclick="decrement(${i})" title="Retirer 1 point">-</button>
-          <button onclick="resetPlayer(${i})" title="Remettre le score à zéro">♻️</button>
-          <button onclick="editPlayer(${i})" title="Modifier le joueur">✏️</button>
-          <button onclick="deletePlayer(${i})" title="Supprimer le joueur">❌</button>
-        </div>
 
-        `;
+    let statusLabel = "";
+    if (player.status === "station") {
+      const order = stationOrder.indexOf(i) + 1;
+      const suffix = order === 1 ? "er" : "e";
+      statusLabel = `<div class="station">🚩 ${order}${suffix} station</div>`;
+    } else {
+      statusLabel = `<div class="piste">🛫 En piste</div>`;
+    }
+
+    el.innerHTML = `
+      <div class="color-bar" style="background:${player.color}"></div>
+      <div class="info">
+        <strong>${player.name} (${player.initials})</strong>
+        <small>Créneau : ${player.slot}</small>
+        ${statusLabel}
+        <div class="score">✈️ ${player.score}</div>
+      </div>
+      <div class="actions">
+        <button onclick="increment(${i})" title="Ajouter 1 point">+</button>
+        <button onclick="decrement(${i})" title="Retirer 1 point">-</button>
+        <button onclick="resetPlayer(${i})" title="Remettre le score à zéro">♻️</button>
+        <button onclick="editPlayer(${i})" title="Modifier le joueur">✏️</button>
+        <button onclick="deletePlayer(${i})" title="Supprimer le joueur">❌</button>
+        <button onclick="setStation(${i})" title="Remettre en station">🚩</button>
+      </div>
+    `;
     container.appendChild(el);
   });
+
   updateChart();
 }
+
 
 function saveHistory() {
   history.push(JSON.stringify(players));
@@ -186,21 +252,16 @@ function undo() {
 }
 
 function exportTXT() {
-  const today = new Date().toLocaleDateString('fr-FR');
-  
-  // En-tête
+  const today = new Date().toLocaleDateString("fr-FR");
   let content = `Avitaillement - ${today}\n\n`;
-
-  // Titres des colonnes avec alignement fixe
   content += pad("Nom", 20) + pad("Créneau", 10) + pad("Avions", 8) + "\n";
   content += "-".repeat(37) + "\n";
 
-  // Lignes des joueurs
   players.forEach((p) => {
-    content += pad(p.name, 20) + pad(p.slot, 10)+ pad(p.score.toString(), 8) + "\n";
+    content +=
+      pad(p.name, 20) + pad(p.slot, 10) + pad(p.score.toString(), 8) + "\n";
   });
 
-  // Création et téléchargement
   const blob = new Blob([content], { type: "text/plain" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -209,12 +270,10 @@ function exportTXT() {
   a.click();
 }
 
-// Fonction utilitaire pour aligner le texte avec padding
 function pad(str, length) {
   str = str.toString();
   return str + " ".repeat(Math.max(0, length - str.length));
 }
-
 
 function toggleDarkMode() {
   document.body.classList.toggle("dark");
@@ -261,6 +320,7 @@ function resetAll() {
     )
   ) {
     players = [];
+    returnCounter = 1;
     saveHistory();
     save();
     render();
