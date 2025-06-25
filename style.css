@@ -109,6 +109,28 @@ body {
   font-weight: 700;
   margin-top: 5px;
 }
+/* Logo */
+.logo {
+  width: 100px;
+  height: auto;
+  margin: 10px auto;
+  display: block;
+  background: transparent;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
+  border-radius: 90px;
+  box-shadow: 0 8px 20px rgba(0, 100, 0, 0.3);
+}
+
+.logointerface {
+  width: 100px;
+  height: auto;
+  margin: 10px auto;
+  background: transparent;
+  filter: drop-shadow(0 1px 2px rgba(9, 163, 234, 0.253));
+  border-radius: 90px;
+  top: 0;
+  left: 0;
+}
 
 /* Container */
 .container {
