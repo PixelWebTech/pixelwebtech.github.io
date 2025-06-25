@@ -1,71 +1,72 @@
-# pixelwebtech.github.io
+# 🛠️ Outils de gestion d'Avitaillement 
 
-# 🛠️ Compteur d'Avitaillement Équitable
+## 🔎 Concept
 
-## 🔎 Concept AVICOUNT 
+**Avit count** est une application web conçue pour organiser, suivre et équilibrer les passages des avitailleurs lors d’un événement ou d’un exercice logistique.
 
-**Avitaillement Équitable** est une application web conçue pour organiser, suivre et équilibrer les passages des avitailleurs sur le terrain lors d’un événement ou d’un exercice logistique.
+Chaque participant (appelé "avitailleur") commence **en station**. Lorsqu’il part effectuer un avitaillement, son **score est incrémenté** et son **statut passe à "en piste"**. Lorsqu’il revient, un clic sur le bouton **drapeau** le remet "en station".
 
-Chaque participant (appelé "avitailleur") commence "en station". Lorsqu’il part effectuer un avitaillement, son score est incrémenté et son statut passe à "en piste". Lorsqu’il revient, un clic sur le bouton "drapeau" le remet "en station". L’application garde un suivi clair et en temps réel de tous les avitailleurs, leur score, leur statut, et l’ordre d’arrivée.
+L’application garde un suivi clair et en temps réel de tous les avitailleurs, leur score, leur statut, l’ordre d’arrivée, et propose plusieurs outils pour la gestion de fin de quart.
 
 ---
 
 ## 🎯 Objectifs
 
-- Suivre équitablement les avitaillements
-- Visualiser rapidement les scores et l’ordre d’activité
-- Éviter les oublis ou les déséquilibres de charge
-- Favoriser une gestion juste et lisible en temps réel
+- Suivre équitablement les passages des avitailleurs
+- Visualiser rapidement les scores et statuts
+- Éviter les oublis ou déséquilibres de charge
+- Gérer facilement le passage d’un quart à l’autre
+- Offrir une interface claire et équitable
 
 ---
 
 ## 🧑‍💻 Utilisation
 
 ### 1. 🔐 Connexion
-À l’ouverture, l’application demande un **mot de passe** :
-- Par défaut : `equitable`
-- (modifiable dans `script.js` si besoin)
+- À l’ouverture, l’application demande un **mot de passe**.
 
 ### 2. ➕ Ajouter un avitailleur
-- Saisir le **nom et numéro de l'oléoserveur** dans le champ prévu.
-- Saisir le **heure de debut de service** dans le champ prévu.
-- Cliquer sur **"Ajouter"**.
-- Le joueur est affiché avec un score de 0 et un statut "en station".
+- Saisir le **nom de l'avitailleur et numéro d'oléoserveur** et cliquer sur **"Ajouter"**.
+- Il apparaît avec un **score 0** et un **statut "en station"**.
+- Les avitailleurs ajoutés à la même horaire ont **la même couleur** automatiquement.
 
-> Les avitailleurs ajoutés qui commence à la même horaire reçoivent automatiquement la **même couleur** pour repérer facilement les groupes d’arrivée.
+### 3. 📝 Modifier un avitailleur
+- Cliquer sur l’**icône de crayon ✏️** pour **modifier le nom de l'avitailleur et numéro d'oléoserveur** d’un avitailleur.
 
-### 3. 🏁 Démarrer un avitaillement
-- Cliquer sur le bouton **"+"** d’un avitailleur.
-- Son **score augmente de 1**, son **statut passe à "en piste"**.
+### 4. 🗑️ Supprimer un avitailleur
+- Cliquer sur l’**icône de croix ❌** pour le **retirer définitivement** de la liste.
 
-### 4. 🚩 Fin d’un avitaillement
-- Cliquer sur le bouton **drapeau** pour signaler que l’avitailleur est revenu en station.
-- Son **statut revient à "en station"**.
+### 5. 🏁 Démarrer un avitaillement
+- Cliquer sur **"+"** → le score augmente, le statut passe à **"en piste"**.
 
-### 5. 📊 Visualiser le classement
-- Les avitailleurs sont triés automatiquement par **ordre des créneaux horaire**.
-- Les avitailleurs sont triés automatiquement par **ordre décroissant de score**.
-- Les avitailleurs sont triés automatiquement par **ordre croissant de score**.
-- Un **graphique** dynamique (Chart.js) présente leur activité.
+### 6. 🚩 Retour d’un avitailleur
+- Cliquer sur **le bouton drapeau** → le statut revient à **"en station"**.
+
+### 7. ↩️ Annuler une action
+- Cliquer sur le bouton **"Annuler"** pour **annuler la dernière action effectuée** (ajout, incrément, retour, suppression...).
+- Permet de revenir facilement en arrière en cas d’erreur.
+
+---
 
 ## ⚙️ Fonctions de gestion (Chef de piste)
 
 ### 🌓 Mode nuit
-- Le design passe automatiquement en **mode sombre** si le navigateur ou l'appareil est en **dark mode**.
+- L’application adopte automatiquement un **mode sombre** si l’appareil l’utilise.
 - Design responsive, adapté à tous les écrans.
 
 ### 🔁 Réinitialiser les scores
-- Bouton **"Remise à zéro"** : remet tous les scores à **0** sans supprimer les avitailleurs.
-- Utile entre deux missions dans un même quart.
+- Bouton **"Remise à zéro"** : remet tous les scores à **0**, sans supprimer les avitailleurs.
+- Idéal entre deux rotations dans un même quart.
 
-### 🧹 Supprimer tous les avitailleurs
-- Bouton **"Fin de quart"** : efface **tous les avitailleurs et leurs données**.
-- Permet de repartir sur une base propre pour une nouvelle équipe ou un nouveau créneau.
+### 🧹 Fin de quart
+- Bouton **"Fin de quart"** : supprime **tous les avitailleurs et leurs données**.
+- Permet de repartir de zéro pour un nouveau quart.
 
 ### 📤 Export CSV
-- Bouton **"Exporter CSV"** : télécharge un fichier `.csv` des scores et statuts.
-- Permet un archivage manuel ou une exploitation hors-ligne.
+- Bouton **"Exporter CSV"** : télécharge un fichier `.csv` contenant les scores, statuts et l’ordre d’ajout.
+- Permet un archivage hors ligne ou un transfert administratif.
 
----
+
+
 
 
