@@ -1,4 +1,4 @@
-/ login
+// login
 const PASSWORD = "avit";
 
 let players = JSON.parse(localStorage.getItem("players") || "[]");
@@ -326,4 +326,5 @@ function resetAll() {
     render();
   }
 }
+
 
