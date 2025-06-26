@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>✈️ AVIT COUNT</title>
-    <link rel="icon" href="/avitcount2.png" type="image/x-icon" />
+    <link rel="icon" href="/avicount2.png" type="image/x-icon" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
@@ -12,8 +12,7 @@
     <div id="loginScreen" class="login-screen">
       <div class="login-card">
         <div class="login-box">
-        <img class="logo" src="/avitcount2.png" alt="Logo Avit Count" />
-
+          <img class="logo" src="/avicount2.png" alt="Logo Avit Count" />
           <h2>Connexion</h2>
           <input
             type="password"
@@ -33,16 +32,20 @@
     </div>
 
     <div class="container" style="display: none">
-      <img class="logointerface" src="/avitcount2.png" alt="Logo Avit Count" />
-      <h1 class="title">✈️ Compteur Avitaillement</h1>
-      <p id="currentDate" style="text-align:center; font-weight:600; margin-bottom:20px;"></p>
+      <img class="logointerface" src="/avicount2.png" alt="Logo Avit Count" />
 
+      <h1 class="title">✈️ Compteur Avitaillement</h1>
+      <p
+        id="currentDate"
+        style="text-align: center; font-weight: 600; margin-bottom: 20px"
+      ></p>
 
       <div class="controls">
         <input type="text" id="playerName" placeholder="Avitailleur et oléoserveur" />
         <select id="timeSlot">
           <option value="5h" selected>5h</option>
-          <option value="5h30">5h30</option> <!-- ✅ Ajouté -->
+          <option value="5h30">5h30</option>
+          <!-- ✅ Ajouté -->
           <option value="6h">6h</option>
           <option value="13h">13h</option>
           <option value="13h30">13h30</option>
@@ -57,11 +60,10 @@
           <option value="timeAsc" selected>🕓 Ordre créneau horaire</option>
         </select>
 
-        <!-- <button onclick="exportCSV()">📤 Export CSV</button> -->
         <button onclick="exportTXT()">Exporter en .txt</button>
         <button onclick="undo()">↩️ Annuler</button>
         <button onclick="toggleDarkMode()">🌓 Mode</button>
-        <button onclick="resetAll()">🔄 Remise à zéro</button>
+        <button onclick="resetAll()">🔄 Fin de quart</button>
       </div>
 
       <canvas id="scoreChart"></canvas>
@@ -69,12 +71,13 @@
 
       <footer>
         <p class="footer">Développé par PIXELWEBTECH - 2025</p>
-         <p class="footer version">Version 7</p>
+        <p class="footer version">Version 7</p>
       </footer>
     </div>
 
     <script src="script.js"></script>
   </body>
 </html>
+
 
 
