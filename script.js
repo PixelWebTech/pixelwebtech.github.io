@@ -251,25 +251,6 @@ function undo() {
   render();
 }
 
-function exportTXT() {
-  const today = new Date().toLocaleDateString("fr-FR");
-  let content = `Avitaillement - ${today}\n\n`;
-  content += pad("Nom", 20) + pad("Créneau", 10) + pad("Avions", 8) + "\n";
-  content += "-".repeat(37) + "\n";
-
-  players.forEach((p) => {
-    content +=
-      pad(p.name, 20) + pad(p.slot, 10) + pad(p.score.toString(), 8) + "\n";
-  });
-
-  const blob = new Blob([content], { type: "text/plain" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `avitaillement_${today.replace(/\//g, "-")}.txt`;
-  a.click();
-}
-
 function pad(str, length) {
   str = str.toString();
   return str + " ".repeat(Math.max(0, length - str.length));
