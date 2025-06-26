@@ -1,8 +1,8 @@
-
 /* Background & body */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0; padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
   background: linear-gradient(135deg, #e0f7fa 0%, #80deea 100%);
   color: #222;
   transition: background 0.3s, color 0.3s;
@@ -17,8 +17,10 @@ body {
 /* login */
 .login-screen {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background-color: #00796b; /* vert clair */
   display: flex;
   justify-content: center;
@@ -109,15 +111,15 @@ body {
   font-weight: 700;
   margin-top: 5px;
 }
-/* Logo */
+
 .logo {
-  width: 100px;
+  width: 80px;
   height: auto;
   margin: 10px auto;
   display: block;
   background: transparent;
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15));
-  border-radius: 90px;
+  border-radius: 30px;
   box-shadow: 0 8px 20px rgba(0, 100, 0, 0.3);
 }
 
@@ -133,15 +135,14 @@ body {
   border-radius: 30px;
 }
 
-
 /* Container */
 .container {
   max-width: 900px;
   margin: 30px auto;
   padding: 20px;
   background: rgba(255 255 255 / 0.85);
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  border-radius: 30px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   transition: background 0.3s;
 }
 
@@ -169,8 +170,6 @@ body {
 
 /* Controls */
 .controls {
-  /* display: flex;
-  flex-wrap: wrap; */
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 colonnes égales */
   gap: 15px;
@@ -179,7 +178,9 @@ body {
 }
 
 /* Inputs and select */
-input[type="text"], select, input[type="color"] {
+input[type="text"],
+select,
+input[type="color"] {
   padding: 10px 15px;
   font-size: 1rem;
   border: 2px solid #00796b;
@@ -190,7 +191,9 @@ input[type="text"], select, input[type="color"] {
   box-sizing: border-box;
 }
 
-input[type="text"]:focus, select:focus, input[type="color"]:focus {
+input[type="text"]:focus,
+select:focus,
+input[type="color"]:focus {
   border-color: #004d40;
   box-shadow: 0 0 8px #004d40aa;
 }
@@ -233,7 +236,7 @@ button:hover {
   color: #222;
   border-radius: 10px;
   padding: 16px 20px;
-  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s, color 0.3s, transform 0.2s ease;
   display: flex;
   flex-direction: column;
@@ -293,7 +296,10 @@ button:hover {
     flex-direction: column;
     align-items: stretch;
   }
-  input[type="text"], select, input[type="color"], button {
+  input[type="text"],
+  select,
+  input[type="color"],
+  button {
     width: 100%;
     min-width: unset;
   }
